@@ -1,0 +1,14 @@
+com.sun.xacml
+com.sun.xacml.attr
+com.sun.xacml.attr.proxy
+com.sun.xacml.combine
+com.sun.xacml.cond
+com.sun.xacml.cond.cluster
+com.sun.xacml.ctx
+com.sun.xacml.finder
+com.sun.xacml.finder.impl
+com.sun.xacml.support
+com.sun.xacml.support.finder
+com.sun.xacml.test
+oasis.names.tc.xacml._2_0.context.schema.os
+oasis.names.tc.xacml._2_0.policy.schema.os
