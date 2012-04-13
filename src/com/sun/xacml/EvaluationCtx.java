@@ -36,16 +36,16 @@
 
 package com.sun.xacml;
 
+import java.net.URI;
+
+import org.w3c.dom.Node;
+
 import com.sun.xacml.attr.AttributeValue;
 import com.sun.xacml.attr.DateAttribute;
 import com.sun.xacml.attr.DateTimeAttribute;
 import com.sun.xacml.attr.TimeAttribute;
-
 import com.sun.xacml.cond.EvaluationResult;
-
-import java.net.URI;
-
-import org.w3c.dom.Node;
+import com.sun.xacml.remote.RemotePolicyEvaluator;
 
 
 /**
@@ -247,5 +247,15 @@ public interface EvaluationCtx
     public EvaluationResult getAttribute(String contextPath,
                                          Node namespaceNode, URI type,
                                          String xpathVersion);
+    
+    /**
+     * Returns the remote policy evaluator.
+     */
+    public RemotePolicyEvaluator getRemotePolicyEvaluator();
+    
+    /**
+     * Sets the remote policy evaluator.
+     */
+    public void setRemotePolicyEvaluator(RemotePolicyEvaluator remotePolicyEvaluator);
 
 }

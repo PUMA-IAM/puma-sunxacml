@@ -36,13 +36,9 @@
 
 package com.sun.xacml.ctx;
 
-import com.sun.xacml.Indenter;
-import com.sun.xacml.ParsingException;
-
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -50,6 +46,9 @@ import java.util.Set;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.sun.xacml.Indenter;
+import com.sun.xacml.ParsingException;
 
 
 /**
@@ -175,7 +174,7 @@ public class ResponseCtx
 
         // Now write the XML...
 
-        out.println(indent + "<Response>");
+        out.println(indent + "<Response xmlns=\"urn:oasis:names:tc:xacml:2.0:context:schema:os\" xmlns:ns2=\"urn:oasis:names:tc:xacml:2.0:policy:schema:os\">");
 
         // Go through all results
         Iterator it = results.iterator();

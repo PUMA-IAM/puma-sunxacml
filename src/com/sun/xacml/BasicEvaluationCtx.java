@@ -36,19 +36,6 @@
 
 package com.sun.xacml;
 
-import com.sun.xacml.attr.AttributeDesignator;
-import com.sun.xacml.attr.AttributeValue;
-import com.sun.xacml.attr.BagAttribute;
-import com.sun.xacml.attr.DateAttribute;
-import com.sun.xacml.attr.DateTimeAttribute;
-import com.sun.xacml.attr.StringAttribute;
-import com.sun.xacml.attr.TimeAttribute;
-
-import com.sun.xacml.cond.EvaluationResult;
-
-
-import com.sun.xacml.finder.AttributeFinder;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -59,23 +46,35 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
 import oasis.names.tc.xacml._2_0.context.schema.os.AttributeType;
 import oasis.names.tc.xacml._2_0.context.schema.os.AttributeValueType;
 import oasis.names.tc.xacml._2_0.context.schema.os.RequestType;
 import oasis.names.tc.xacml._2_0.context.schema.os.ResourceType;
 import oasis.names.tc.xacml._2_0.context.schema.os.SubjectType;
-import org.w3c.dom.Document;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
+import com.sun.xacml.attr.AttributeDesignator;
+import com.sun.xacml.attr.AttributeValue;
+import com.sun.xacml.attr.BagAttribute;
+import com.sun.xacml.attr.DateAttribute;
+import com.sun.xacml.attr.DateTimeAttribute;
+import com.sun.xacml.attr.StringAttribute;
+import com.sun.xacml.attr.TimeAttribute;
+import com.sun.xacml.cond.EvaluationResult;
+import com.sun.xacml.finder.AttributeFinder;
+import com.sun.xacml.remote.RemotePolicyEvaluator;
 
 
 /**
@@ -119,6 +118,9 @@ public class BasicEvaluationCtx implements EvaluationCtx
     private TimeAttribute currentTime;
     private DateTimeAttribute currentDateTime;
     private boolean useCachedEnvValues;
+    
+    // the remote policy evaluator
+    private RemotePolicyEvaluator remotePolicyEvaluator;
 
     // the logger we'll use for all messages
     private static final Logger logger =
@@ -221,6 +223,25 @@ public class BasicEvaluationCtx implements EvaluationCtx
         // finally, set up the environment data, which is also generic
         environmentMap = new HashMap();
         mapAttributes(request.getEnvironment().getAttribute(), environmentMap);
+    }
+    
+    /**
+     * 
+     */
+    public BasicEvaluationCtx(RequestType request, AttributeFinder finder,
+    		RemotePolicyEvaluator remotePolicyEvaluator, 
+            boolean cacheEnvValues) throws ParsingException {
+    	this(request, finder, cacheEnvValues);
+    	this.remotePolicyEvaluator = remotePolicyEvaluator;
+    }
+    
+    /**
+     * 
+     */
+    public BasicEvaluationCtx(RequestType request, AttributeFinder finder,
+    		RemotePolicyEvaluator remotePolicyEvaluator) throws ParsingException {
+    	this(request, finder);
+    	this.remotePolicyEvaluator = remotePolicyEvaluator;
     }
 
     /**
@@ -716,5 +737,15 @@ public class BasicEvaluationCtx implements EvaluationCtx
 
         return requestRoot;
     }
+
+	@Override
+	public RemotePolicyEvaluator getRemotePolicyEvaluator() {
+		return remotePolicyEvaluator;
+	}
+
+	@Override
+	public void setRemotePolicyEvaluator(RemotePolicyEvaluator remotePolicyEvaluator) {
+		this.remotePolicyEvaluator = remotePolicyEvaluator;
+	}
 
 }

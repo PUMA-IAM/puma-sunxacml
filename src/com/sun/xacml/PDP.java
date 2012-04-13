@@ -36,33 +36,33 @@
 
 package com.sun.xacml;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+
+import oasis.names.tc.xacml._2_0.context.schema.os.RequestType;
+
 import com.sun.xacml.attr.AttributeValue;
 import com.sun.xacml.ctx.RequestCtx;
 import com.sun.xacml.ctx.ResponseCtx;
 import com.sun.xacml.ctx.Result;
 import com.sun.xacml.ctx.Status;
-
 import com.sun.xacml.finder.AttributeFinder;
 import com.sun.xacml.finder.PolicyFinder;
 import com.sun.xacml.finder.PolicyFinderResult;
 import com.sun.xacml.finder.ResourceFinder;
 import com.sun.xacml.finder.ResourceFinderResult;
-import java.io.ByteArrayInputStream;
-
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import oasis.names.tc.xacml._2_0.context.schema.os.RequestType;
+import com.sun.xacml.remote.RemotePolicyEvaluator;
 
 
 /**
@@ -84,6 +84,9 @@ public class PDP
 
     // the single resource finder that will be used to resolve resources
     private ResourceFinder resourceFinder;
+    
+    //
+    private RemotePolicyEvaluator remotePolicyEvaluator;
 
     // the logger we'll use for all messages
     private static final Logger logger = Logger.getLogger(PDP.class.getName());
@@ -104,6 +107,8 @@ public class PDP
         policyFinder.init();
 
         resourceFinder = config.getResourceFinder();
+        
+        remotePolicyEvaluator = config.getRemotePolicyEvaluator();
     }
 
     /**
@@ -175,7 +180,7 @@ public class PDP
     public ResponseCtx evaluate(RequestType request) {
         // try to create the EvaluationCtx out of the request
         try {
-            return evaluate(new BasicEvaluationCtx(request, attributeFinder));
+            return evaluate(new BasicEvaluationCtx(request, attributeFinder, remotePolicyEvaluator));
         } catch (ParsingException pe) {
             logger.log(Level.INFO, "the PDP receieved an invalid request", pe);
 
@@ -297,6 +302,7 @@ public class PDP
         // we found a valid policy, so we can do the evaluation
         return finderResult.getPolicy().evaluate(context);
     }    
+    
     /**
      * A utility method that wraps the functionality of the other evaluate
      * method with input and output streams. This is useful if you've got

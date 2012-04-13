@@ -36,17 +36,9 @@
 
 package com.sun.xacml;
 
-import com.sun.xacml.combine.CombinerParameter;
-import com.sun.xacml.combine.PolicyCombinerElement;
-import com.sun.xacml.combine.PolicyCombiningAlgorithm;
-
-import com.sun.xacml.finder.PolicyFinder;
-
 import java.io.OutputStream;
 import java.io.PrintStream;
-
 import java.net.URI;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,6 +47,11 @@ import java.util.Set;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.sun.xacml.combine.CombinerParameter;
+import com.sun.xacml.combine.PolicyCombinerElement;
+import com.sun.xacml.combine.PolicyCombiningAlgorithm;
+import com.sun.xacml.finder.PolicyFinder;
 
 
 /**
@@ -117,7 +114,8 @@ public class PolicySet extends AbstractPolicy
      *                                  contains an object that is not an
      *                                  <code>AbstractPolicy</code>
      */
-    public PolicySet(URI id, String version,
+    @SuppressWarnings("rawtypes")
+	public PolicySet(URI id, String version,
                      PolicyCombiningAlgorithm combiningAlg,
                      String description, Target target, List policies) {
         this(id, version, combiningAlg, description, target, policies, null,
@@ -142,7 +140,8 @@ public class PolicySet extends AbstractPolicy
      *                                  contains an object that is not an
      *                                  <code>AbstractPolicy</code>
      */
-    public PolicySet(URI id, String version,
+    @SuppressWarnings("rawtypes")
+	public PolicySet(URI id, String version,
                      PolicyCombiningAlgorithm combiningAlg,
                      String description, Target target, List policies,
                      String defaultVersion) {
@@ -275,6 +274,8 @@ public class PolicySet extends AbstractPolicy
             } else if (name.equals("PolicyIdReference")) {
                 policies.add(PolicyReference.getInstance(child, finder,
                                                          metaData));
+            } else if (name.equals("RemotePolicyReference")) {
+            	policies.add(RemotePolicyReference.getInstance(child));
             } else if (name.equals("PolicyCombinerParameters")) {
                 paramaterHelper(policyParameters, child, "Policy");
             } else if (name.equals("PolicySetCombinerParameters")) {
@@ -283,14 +284,13 @@ public class PolicySet extends AbstractPolicy
         }
 
         // now make sure that we can match up any parameters we may have
-        // found to a cooresponding Policy or PolicySet...
+        // found to a corresponding Policy or PolicySet...
         List elements = new ArrayList();
         Iterator it = policies.iterator();
 
         // right now we have to go though each policy and based on several
-        // possible cases figure out what paranmeters might apply...but
+        // possible cases figure out what parameters might apply...but
         // there should be a better way to do this
-
         while (it.hasNext()) {
             AbstractPolicy policy = (AbstractPolicy)(it.next());
             List list = null;
@@ -301,6 +301,9 @@ public class PolicySet extends AbstractPolicy
             } else if (policy instanceof PolicySet) {
                 list = (List)(policySetParameters.remove(policy.getId().
                                                          toString()));
+            } else if (policy instanceof RemotePolicyReference) {
+                list = (List)(policySetParameters.remove(policy.getId().
+                        toString()));
             } else {
                 PolicyReference ref = (PolicyReference)policy;
                 String id = ref.getReference().toString();

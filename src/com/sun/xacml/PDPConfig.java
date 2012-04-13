@@ -39,6 +39,7 @@ package com.sun.xacml;
 import com.sun.xacml.finder.AttributeFinder;
 import com.sun.xacml.finder.PolicyFinder;
 import com.sun.xacml.finder.ResourceFinder;
+import com.sun.xacml.remote.RemotePolicyEvaluator;
 
 
 /**
@@ -62,6 +63,9 @@ public class PDPConfig
 
     //
     private ResourceFinder resourceFinder;
+    
+    // 
+    private RemotePolicyEvaluator remotePolicyEvaluator;
 
     /**
      * Constructor that creates a <code>PDPConfig</code> from components.
@@ -76,20 +80,38 @@ public class PDPConfig
     public PDPConfig(AttributeFinder attributeFinder,
                      PolicyFinder policyFinder,
                      ResourceFinder resourceFinder) {
-        if (attributeFinder != null)
+        this(attributeFinder, policyFinder, resourceFinder, null);
+    }
+    
+    /**
+     * 
+     */
+    public PDPConfig(AttributeFinder attributeFinder,
+            PolicyFinder policyFinder,
+            ResourceFinder resourceFinder, RemotePolicyEvaluator remotePolicyEvaluator) {
+        if (attributeFinder != null) {
             this.attributeFinder = attributeFinder;
-        else
+        } else {
             this.attributeFinder = new AttributeFinder();
+        }
 
-        if (policyFinder != null)
+        if (policyFinder != null) {
             this.policyFinder = policyFinder;
-        else
+        } else {
             this.policyFinder = new PolicyFinder();
+        }
 
-        if (resourceFinder != null)
+        if (resourceFinder != null) {
             this.resourceFinder = resourceFinder;
-        else
+        } else {
             this.resourceFinder = new ResourceFinder();
+        }
+        
+        if (remotePolicyEvaluator != null) {
+        	this.remotePolicyEvaluator = remotePolicyEvaluator;
+        } else {
+        	this.remotePolicyEvaluator = new RemotePolicyEvaluator();
+        }
     }
 
     /**
@@ -120,6 +142,13 @@ public class PDPConfig
      */
     public ResourceFinder getResourceFinder() {
         return resourceFinder;
+    }
+    
+    /**
+     * 
+     */
+    public RemotePolicyEvaluator getRemotePolicyEvaluator() {
+    	return remotePolicyEvaluator;
     }
 
 }
