@@ -32,6 +32,9 @@
  *
  * You acknowledge that this software is not designed or intended for use in
  * the design, construction, operation or maintenance of any nuclear facility.
+ * 
+ * The original form of this file has been altered by Maarten Decat (05/2012) for 
+ * academic purposes.
  */
 
 package com.sun.xacml;
@@ -71,7 +74,8 @@ import com.sun.xacml.remote.RemotePolicyEvaluator;
  * instantiating this object.
  *
  * @since 1.0
- * @author Seth Proctor
+ * @author Seth Proctor 
+ * @author Maarten Decat (05/2012)
  */
 public class PDP
 {

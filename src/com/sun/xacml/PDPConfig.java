@@ -51,6 +51,7 @@ import com.sun.xacml.remote.RemotePolicyEvaluator;
  * @since 1.0
  * @author Seth Proctor
  * @author Marco Barreno
+ * @author Maarten Decat (05/2012)
  */
 public class PDPConfig
 {

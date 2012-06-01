@@ -32,6 +32,9 @@
  *
  * You acknowledge that this software is not designed or intended for use in
  * the design, construction, operation or maintenance of any nuclear facility.
+ * 
+ * The original form of this file has been altered by Maarten Decat (05/2012) for 
+ * academic purposes.
  */
 
 package com.sun.xacml.ctx;
@@ -57,6 +60,7 @@ import com.sun.xacml.ParsingException;
  * @since 1.0
  * @author Seth Proctor
  * @author Marco Barreno
+ * @author Maarten Decat
  */
 public class ResponseCtx
 {
