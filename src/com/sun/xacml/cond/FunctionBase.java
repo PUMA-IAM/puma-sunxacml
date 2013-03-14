@@ -36,22 +36,18 @@
 
 package com.sun.xacml.cond;
 
-import com.sun.xacml.EvaluationCtx;
-import com.sun.xacml.Indenter;
-
-import com.sun.xacml.attr.AttributeValue;
-
-import com.sun.xacml.ctx.Status;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import java.io.OutputStream;
 import java.io.PrintStream;
-
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import com.sun.xacml.EvaluationCtx;
+import com.sun.xacml.Indenter;
+import com.sun.xacml.attr.AttributeValue;
+import com.sun.xacml.ctx.Status;
 
 
 /**
@@ -394,9 +390,17 @@ public abstract class FunctionBase implements Function
             while (it.hasNext()) {
                 Evaluatable eval = (Evaluatable)(it.next());
 
-                if ((! eval.getType().toString().equals(paramType)) ||
-                    (eval.returnsBag() != paramIsBag))
-                    throw new IllegalArgumentException("illegal parameter");
+                if (! eval.getType().toString().equals(paramType)) {
+                	throw new IllegalArgumentException("illegal parameter: " + eval.getType().toString() + " given, but " + paramType + "expected");
+                } else if(eval.returnsBag() != paramIsBag) {
+                	String msg;
+                	if (eval.returnsBag()) {
+                		msg = "in " + this.getFunctionName() + ": parameter of type " + eval.getType() + " cannot be bag";
+                	} else {
+                		msg = "in " + this.getFunctionName() + ": parameter of type " + eval.getType() + " should be bag";
+                	}
+                    throw new IllegalArgumentException("illegal parameter: " + msg);
+                }
             }
         } else {
             // first, check the length of the inputs
