@@ -76,6 +76,7 @@ import com.sun.xacml.attr.DateTimeAttribute;
 import com.sun.xacml.attr.StringAttribute;
 import com.sun.xacml.attr.TimeAttribute;
 import com.sun.xacml.cond.EvaluationResult;
+import com.sun.xacml.ctx.AttributeCache;
 import com.sun.xacml.finder.AttributeFinder;
 import com.sun.xacml.remote.RemotePolicyEvaluator;
 
@@ -129,6 +130,9 @@ public class BasicEvaluationCtx implements EvaluationCtx
     // the logger we'll use for all messages
     private static final Logger logger =
         Logger.getLogger(BasicEvaluationCtx.class.getName());
+    
+    // the attribute cache we'll use to cache results of the attribute finder
+    private AttributeCache attributeCache;
 
     /**
      * Constructs a new <code>BasicEvaluationCtx</code> based on the given
@@ -227,6 +231,9 @@ public class BasicEvaluationCtx implements EvaluationCtx
         // finally, set up the environment data, which is also generic
         environmentMap = new HashMap();
         mapAttributes(request.getEnvironment().getAttribute(), environmentMap);
+        
+        // MDC: set up the cache
+        this.attributeCache = new AttributeCache();
     }
     
     /**
@@ -682,9 +689,18 @@ public class BasicEvaluationCtx implements EvaluationCtx
      */
     private EvaluationResult callHelper(URI type, URI id, URI issuer,
                                         URI category, int adType) {
-        if (finder != null) {
-            return finder.findAttribute(type, id, issuer, category,
+        // MDC: first check the cache
+    	EvaluationResult cachedResult = this.attributeCache.getResult(type, id, issuer, category, adType);
+    	if(cachedResult != null) {
+    		return cachedResult;
+    	}
+    	
+    	if (finder != null) {
+        	// MDC: cache the results
+        	EvaluationResult result = finder.findAttribute(type, id, issuer, category,
                                         this, adType);
+        	this.attributeCache.cacheResult(type, id, issuer, category, adType, result);
+        	return result;
         } else {
             logger.warning("Context tried to invoke AttributeFinder but was " +
                            "not configured with one");
