@@ -110,6 +110,19 @@ public class MatchResult
     public int getResult() {
         return result;
     }
+    
+    /**
+     * 
+     */
+    public String getHumanReadableResult() {
+    	if(getResult() == INDETERMINATE) {
+    		return "INDETERMINATE";
+    	} else if(getResult() == MATCH) {
+    		return "MATCH";
+    	} else {
+    		return "NO_MATCH";
+    	}
+    }
 
     /**
      * Returns the status if there was an error, or null if no error occurred

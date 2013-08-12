@@ -36,13 +36,8 @@
 
 package com.sun.xacml.ctx;
 
-import com.sun.xacml.Indenter;
-import com.sun.xacml.Obligation;
-import com.sun.xacml.ParsingException;
-
 import java.io.OutputStream;
 import java.io.PrintStream;
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -50,6 +45,10 @@ import java.util.Set;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.sun.xacml.Indenter;
+import com.sun.xacml.Obligation;
+import com.sun.xacml.ParsingException;
 
 
 /**
@@ -329,6 +328,14 @@ public class Result
     public int getDecision() {
         return decision; 
     }
+    
+    /**
+     *	MDC: added 
+     */
+    public String getHumanReadableDecision() {
+    	return DECISIONS[this.getDecision()];
+    }
+    
 
     /**
      * Returns the status data included in this <code>Result</code>.

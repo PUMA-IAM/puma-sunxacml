@@ -185,7 +185,7 @@ public class PolicyReader implements ErrorHandler
         } catch (IOException ioe) {
             throw new ParsingException("Failed to read the file", ioe);
         } catch (SAXException saxe) {
-            throw new ParsingException("Failed to parse the file", saxe);
+            throw new ParsingException("Failed to parse the file " + file.getAbsolutePath(), saxe);
         }
     }
 

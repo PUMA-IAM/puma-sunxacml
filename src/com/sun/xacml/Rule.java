@@ -36,29 +36,26 @@
 
 package com.sun.xacml;
 
-import com.sun.xacml.attr.BooleanAttribute;
-
-import com.sun.xacml.cond.Apply;
-import com.sun.xacml.cond.Condition;
-import com.sun.xacml.cond.EvaluationResult;
-import com.sun.xacml.cond.VariableManager;
-
-import com.sun.xacml.ctx.Result;
-import com.sun.xacml.ctx.Status;
-
 import java.io.OutputStream;
 import java.io.PrintStream;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.sun.xacml.attr.BooleanAttribute;
+import com.sun.xacml.cond.Apply;
+import com.sun.xacml.cond.Condition;
+import com.sun.xacml.cond.EvaluationResult;
+import com.sun.xacml.cond.VariableManager;
+import com.sun.xacml.ctx.Result;
+import com.sun.xacml.ctx.Status;
 
 
 /**
@@ -71,6 +68,9 @@ import org.w3c.dom.NodeList;
  */
 public class Rule implements PolicyTreeElement
 {
+
+	private static final Logger logger = Logger
+			.getLogger(Rule.class.getName());
 
     // the attributes associated with this Rule
     private URI idAttr;
@@ -313,6 +313,15 @@ public class Rule implements PolicyTreeElement
      * @return the result of the evaluation
      */
     public Result evaluate(EvaluationCtx context) {
+        Result result = _evaluate(context);
+        logger.info("FLOW: Rule #" + getId() + " => " + result.getHumanReadableDecision());
+        return result;
+    }
+    
+    /**
+     * MDC: This is the original evaluate(). Just renamed it for wrapping in logging.
+     */
+    private Result _evaluate(EvaluationCtx context) {
         // If the Target is null then it's supposed to inherit from the
         // parent policy, so we skip the matching step assuming we wouldn't
         // be here unless the parent matched

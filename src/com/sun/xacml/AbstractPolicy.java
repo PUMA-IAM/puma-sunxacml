@@ -36,32 +36,31 @@
 
 package com.sun.xacml;
 
-import com.sun.xacml.combine.CombinerElement;
-import com.sun.xacml.combine.CombinerParameter;
-import com.sun.xacml.combine.CombiningAlgorithm;
-import com.sun.xacml.combine.CombiningAlgFactory;
-import com.sun.xacml.combine.PolicyCombiningAlgorithm;
-import com.sun.xacml.combine.RuleCombiningAlgorithm;
-
-import com.sun.xacml.ctx.Result;
-
 import java.io.OutputStream;
 import java.io.PrintStream;
-
 import java.net.URI;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
 import java.util.logging.Logger;
+
+import mdc.xacml.timing.TimerContext;
+import mdc.xacml.timing.TimerManager;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.sun.xacml.combine.CombinerElement;
+import com.sun.xacml.combine.CombinerParameter;
+import com.sun.xacml.combine.CombiningAlgFactory;
+import com.sun.xacml.combine.CombiningAlgorithm;
+import com.sun.xacml.combine.PolicyCombiningAlgorithm;
+import com.sun.xacml.combine.RuleCombiningAlgorithm;
+import com.sun.xacml.ctx.Result;
 
 
 /**
@@ -447,6 +446,17 @@ public abstract class AbstractPolicy implements PolicyTreeElement
      * @return the result of trying to match the policy and the request
      */
     public MatchResult match(EvaluationCtx context) {
+    	TimerContext timer = TimerManager.getInstance().getTargetMatchTimer(this.getId().toString());
+        MatchResult result = _match(context);
+        timer.stop();
+        logger.info("FLOW: " + this.getClass().getName() + " #" + getId() + ": " + result.getHumanReadableResult());
+        return result;
+    }
+    
+    /**
+     * Just internal method for wrapping in logging.
+     */
+    public MatchResult _match(EvaluationCtx context) {
         return target.match(context);
     }
 
@@ -493,6 +503,17 @@ public abstract class AbstractPolicy implements PolicyTreeElement
      * @return the result of evaluation
      */
     public Result evaluate(EvaluationCtx context) {
+    	TimerContext timer = TimerManager.getInstance().getPolicyEvaluationTimer(this.getId().toString());
+        Result result = _evaluate(context);
+        timer.stop();
+        logger.info("FLOW: " + this.getClass().getName() + " #" + getId() + " => " + result.getHumanReadableDecision());
+        return result;
+    }
+    
+    /**
+     * MDC: This is the original evaluate(). Just renamed it for wrapping in logging.
+     */
+    private Result _evaluate(EvaluationCtx context) {
         // evaluate
         Result result = combiningAlg.combine(context, parameters,
                                              childElements);

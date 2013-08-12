@@ -56,7 +56,7 @@ public class RemotePolicyReference extends AbstractPolicy {
      * Initialize this new RemotePolicy with given id and RemotePolicyEvaluator.
      */
     public RemotePolicyReference(URI id) {
-    	this.id = id;
+    	this.id = id; // FIXME MDC we're mixing up PolicyId and id here!
     }
 
     /**
@@ -70,7 +70,7 @@ public class RemotePolicyReference extends AbstractPolicy {
     			throws ParsingException {
     	try {
     		NamedNodeMap attributes = root.getAttributes();
-    		Node node = attributes.getNamedItem("PolicyId");
+    		Node node = attributes.getNamedItem("id");
     		String id = node.getTextContent();
 			return new RemotePolicyReference(new URI(id));
 		} catch (DOMException e) {

@@ -91,6 +91,9 @@ public class PDP
     
     //
     private RemotePolicyEvaluator remotePolicyEvaluator;
+    
+    // 
+    private AttributeCounter attributeCounter;
 
     // the logger we'll use for all messages
     private static final Logger logger = Logger.getLogger(PDP.class.getName());
@@ -113,6 +116,8 @@ public class PDP
         resourceFinder = config.getResourceFinder();
         
         remotePolicyEvaluator = config.getRemotePolicyEvaluator();
+        
+        attributeCounter = config.getAttributeCounter();
     }
 
     /**
@@ -184,7 +189,7 @@ public class PDP
     public ResponseCtx evaluate(RequestType request) {
         // try to create the EvaluationCtx out of the request
         try {
-            return evaluate(new BasicEvaluationCtx(request, attributeFinder, remotePolicyEvaluator));
+            return evaluate(new BasicEvaluationCtx(request, attributeFinder, remotePolicyEvaluator, attributeCounter));
         } catch (ParsingException pe) {
             logger.log(Level.INFO, "the PDP receieved an invalid request", pe);
 

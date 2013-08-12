@@ -1,4 +1,3 @@
-
 /*
  * @(#)PDPConfig.java
  *
@@ -41,55 +40,58 @@ import com.sun.xacml.finder.PolicyFinder;
 import com.sun.xacml.finder.ResourceFinder;
 import com.sun.xacml.remote.RemotePolicyEvaluator;
 
-
 /**
- * This class is used as a container that holds configuration
- * information for the PDP, which includes the <code>AttributeFinder</code>,
- * <code>PolicyFinder</code>, and <code>ResourceFinder</code> that the
- * PDP should use.
- *
+ * This class is used as a container that holds configuration information for
+ * the PDP, which includes the <code>AttributeFinder</code>,
+ * <code>PolicyFinder</code>, and <code>ResourceFinder</code> that the PDP
+ * should use.
+ * 
  * @since 1.0
  * @author Seth Proctor
  * @author Marco Barreno
  * @author Maarten Decat (05/2012)
  */
-public class PDPConfig
-{
+public class PDPConfig {
 
-    //
-    private AttributeFinder attributeFinder;
+	//
+	private AttributeFinder attributeFinder;
 
-    //
-    private PolicyFinder policyFinder;
+	//
+	private PolicyFinder policyFinder;
 
-    //
-    private ResourceFinder resourceFinder;
-    
-    // 
-    private RemotePolicyEvaluator remotePolicyEvaluator;
+	//
+	private ResourceFinder resourceFinder;
 
-    /**
-     * Constructor that creates a <code>PDPConfig</code> from components.
-     *
-     * @param attributeFinder the <code>AttributeFinder</code> that the PDP
-     *                        should use, or null if it shouldn't use any
-     * @param policyFinder the <code>PolicyFinder</code> that the PDP
-     *                     should use, or null if it shouldn't use any
-     * @param resourceFinder the <code>ResourceFinder</code> that the PDP
-     *                       should use, or null if it shouldn't use any
-     */
-    public PDPConfig(AttributeFinder attributeFinder,
-                     PolicyFinder policyFinder,
-                     ResourceFinder resourceFinder) {
-        this(attributeFinder, policyFinder, resourceFinder, null);
-    }
-    
-    /**
+	//
+	private RemotePolicyEvaluator remotePolicyEvaluator;
+
+	//
+	private AttributeCounter attributeCounter;
+
+	/**
+	 * Constructor that creates a <code>PDPConfig</code> from components.
+	 * 
+	 * @param attributeFinder
+	 *            the <code>AttributeFinder</code> that the PDP should use, or
+	 *            null if it shouldn't use any
+	 * @param policyFinder
+	 *            the <code>PolicyFinder</code> that the PDP should use, or null
+	 *            if it shouldn't use any
+	 * @param resourceFinder
+	 *            the <code>ResourceFinder</code> that the PDP should use, or
+	 *            null if it shouldn't use any
+	 */
+	public PDPConfig(AttributeFinder attributeFinder,
+			PolicyFinder policyFinder, ResourceFinder resourceFinder) {
+		this(attributeFinder, policyFinder, resourceFinder, null, null);
+	}
+
+	/**
      * 
      */
-    public PDPConfig(AttributeFinder attributeFinder,
+	public PDPConfig(AttributeFinder attributeFinder,
             PolicyFinder policyFinder,
-            ResourceFinder resourceFinder, RemotePolicyEvaluator remotePolicyEvaluator) {
+            ResourceFinder resourceFinder, RemotePolicyEvaluator remotePolicyEvaluator, AttributeCounter attributeCounter) {
         if (attributeFinder != null) {
             this.attributeFinder = attributeFinder;
         } else {
@@ -113,43 +115,56 @@ public class PDPConfig
         } else {
         	this.remotePolicyEvaluator = new RemotePolicyEvaluator();
         }
+        
+        if(attributeCounter != null) {
+        	this.attributeCounter = attributeCounter;
+        } else {
+        	this.attributeCounter = new DefaultAttributeCounter();
+        }
     }
 
-    /**
-     * Returns the <code>AttributeFinder</code> that was configured, or
-     * null if none was configured
-     *
-     * @return the <code>AttributeFinder</code> or null
-     */
-    public AttributeFinder getAttributeFinder() {
-        return attributeFinder;
-    }
+	/**
+	 * Returns the <code>AttributeFinder</code> that was configured, or null if
+	 * none was configured
+	 * 
+	 * @return the <code>AttributeFinder</code> or null
+	 */
+	public AttributeFinder getAttributeFinder() {
+		return attributeFinder;
+	}
 
-    /**
-     * Returns the <code>PolicyFinder</code> that was configured, or
-     * null if none was configured
-     *
-     * @return the <code>PolicyFinder</code> or null
-     */
-    public PolicyFinder getPolicyFinder() {
-        return policyFinder;
-    }
+	/**
+	 * Returns the <code>PolicyFinder</code> that was configured, or null if
+	 * none was configured
+	 * 
+	 * @return the <code>PolicyFinder</code> or null
+	 */
+	public PolicyFinder getPolicyFinder() {
+		return policyFinder;
+	}
 
-    /**
-     * Returns the <code>ResourceFinder</code> that was configured, or
-     * null if none was configured
-     *
-     * @return the <code>ResourceFinder</code> or null
-     */
-    public ResourceFinder getResourceFinder() {
-        return resourceFinder;
-    }
-    
-    /**
+	/**
+	 * Returns the <code>ResourceFinder</code> that was configured, or null if
+	 * none was configured
+	 * 
+	 * @return the <code>ResourceFinder</code> or null
+	 */
+	public ResourceFinder getResourceFinder() {
+		return resourceFinder;
+	}
+
+	/**
      * 
      */
-    public RemotePolicyEvaluator getRemotePolicyEvaluator() {
-    	return remotePolicyEvaluator;
-    }
+	public RemotePolicyEvaluator getRemotePolicyEvaluator() {
+		return remotePolicyEvaluator;
+	}
+
+	/**
+     * 
+     */
+	public AttributeCounter getAttributeCounter() {
+		return attributeCounter;
+	}
 
 }

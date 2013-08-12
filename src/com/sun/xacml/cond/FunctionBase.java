@@ -36,22 +36,18 @@
 
 package com.sun.xacml.cond;
 
-import com.sun.xacml.EvaluationCtx;
-import com.sun.xacml.Indenter;
-
-import com.sun.xacml.attr.AttributeValue;
-
-import com.sun.xacml.ctx.Status;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import java.io.OutputStream;
 import java.io.PrintStream;
-
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import com.sun.xacml.EvaluationCtx;
+import com.sun.xacml.Indenter;
+import com.sun.xacml.attr.AttributeValue;
+import com.sun.xacml.ctx.Status;
 
 
 /**
@@ -345,12 +341,9 @@ public abstract class FunctionBase implements Function
      */
     protected EvaluationResult evalArgs(List params, EvaluationCtx context,
                                         AttributeValue [] args) {
-        Iterator it = params.iterator();
         int index = 0;
 
-        while (it.hasNext()) {
-            // get and evaluate the next parameter
-            Evaluatable eval = (Evaluatable)(it.next());
+        for(Evaluatable eval: (List<Evaluatable>)params) {
             EvaluationResult result = eval.evaluate(context);
 
             // If there was an error, pass it back...
@@ -363,6 +356,26 @@ public abstract class FunctionBase implements Function
 
         // if no error occurred then we got here, so we return no errors
         return null;
+        
+        
+//        Iterator it = params.iterator();
+//        int index = 0;
+//
+//        while (it.hasNext()) {
+//            // get and evaluate the next parameter
+//            Evaluatable eval = (Evaluatable)(it.next());
+//            EvaluationResult result = eval.evaluate(context);
+//
+//            // If there was an error, pass it back...
+//            if (result.indeterminate())
+//                return result;
+//
+//            // ...otherwise save it and keep going
+//            args[index++] = result.getAttributeValue();
+//        }
+//
+//        // if no error occurred then we got here, so we return no errors
+//        return null;
     }
     
     /**

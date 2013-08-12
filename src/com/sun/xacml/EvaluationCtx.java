@@ -40,14 +40,19 @@
 package com.sun.xacml;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Set;
 
 import org.w3c.dom.Node;
 
 import com.sun.xacml.attr.AttributeValue;
+import com.sun.xacml.attr.BagAttribute;
 import com.sun.xacml.attr.DateAttribute;
 import com.sun.xacml.attr.DateTimeAttribute;
 import com.sun.xacml.attr.TimeAttribute;
 import com.sun.xacml.cond.EvaluationResult;
+import com.sun.xacml.ctx.CachedAttribute;
+import com.sun.xacml.ctx.EncodedCachedAttribute;
 import com.sun.xacml.remote.RemotePolicyEvaluator;
 
 
@@ -261,5 +266,21 @@ public interface EvaluationCtx
      * Sets the remote policy evaluator.
      */
     public void setRemotePolicyEvaluator(RemotePolicyEvaluator remotePolicyEvaluator);
+    
+    /**
+     * Returns the attributes cached in this evaluation context.
+     */
+	public Set<BagAttribute> getCachedAttributes();
+
+	/**
+	 * Add the given attributes to the cache.
+	 */
+	public void addAttributesToCache(List<CachedAttribute> attributes);
+	
+	/**
+	 * Returns the attributes cached in this evaluation context encoded for 
+	 * web service communication.
+	 */
+	public List<EncodedCachedAttribute> getEncodedCachedAttributes();
 
 }

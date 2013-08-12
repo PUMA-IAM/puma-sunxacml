@@ -37,10 +37,16 @@
 package com.sun.xacml.attr;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.sun.xacml.SimpleAttributeValue;
 
 
 /**
@@ -63,6 +69,9 @@ import java.util.NoSuchElementException;
  */
 public class BagAttribute extends AttributeValue implements Iterable<Object>
 {
+	
+	private static final Logger logger = Logger
+			.getLogger(BagAttribute.class.getName());
 
     // The Collection of AttributeValues that this object encapsulates
     private Collection bag;
@@ -234,6 +243,43 @@ public class BagAttribute extends AttributeValue implements Iterable<Object>
      */
     public String encode() {
         throw new UnsupportedOperationException("Bags cannot be encoded");
+    }
+    
+    /**
+     * Helper method to pass bag attributes over web services.
+     * 
+     * @return
+     */
+    public List<SimpleAttributeValue> encodeToSet() {
+    	List<SimpleAttributeValue> result = new ArrayList<SimpleAttributeValue>();
+    	for(AttributeValue value: (Collection<AttributeValue>)this.bag) {
+    		result.add(new SimpleAttributeValue(value.getType().toString(), value));
+    	}
+    	return result;
+    }
+    
+    /**
+     * Helper method to pass bag attributes over web services.
+     * 
+     * @return
+     */
+    public static BagAttribute fromEncodedSet(List<SimpleAttributeValue> values) {
+    	if(values.isEmpty()) {
+    		return null;
+    	}
+    	List<AttributeValue> results = new ArrayList<AttributeValue>();
+    	for(SimpleAttributeValue value: values) {
+    		results.add(value.getValueAsObject());
+    	}
+    	URI type;
+		try {
+			type = new URI(values.get(0).getType());
+		} catch (URISyntaxException e) {
+			logger.log(Level.WARNING, "URISyntaxException when converting String type of SimpleAttributeValue to URI type", e);
+			e.printStackTrace();
+			return null;
+		}
+    	return new BagAttribute(type, results);
     }
 
     public Collection getValue() {
