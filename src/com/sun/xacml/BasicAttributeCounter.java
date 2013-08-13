@@ -21,21 +21,33 @@
 package com.sun.xacml;
 
 /**
- * Default attribute counter that does nothing.
+ * Default attribute counter that counts locally.
  * 
  * @author Maarten Decat
  *
  */
-public class DefaultAttributeCounter implements AttributeCounter {
+public class BasicAttributeCounter implements AttributeCounter {
+	
+	private int nbCacheFetches = 0;
+
+	public int getNbCacheFetches() {
+		return nbCacheFetches;
+	}
+	
+	private int nbNoncacheFetches = 0;
+
+	public int getNbNoncacheFetches() {
+		return nbNoncacheFetches;
+	}
 
 	@Override
 	public void countCacheFetch() {
-		// do nothing
+		nbCacheFetches++;
 	}
 
 	@Override
 	public void countNoncacheFetch() {
-		// do nothing
+		nbNoncacheFetches++;
 	}
 
 }

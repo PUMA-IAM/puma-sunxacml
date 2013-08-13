@@ -50,6 +50,7 @@ import java.util.Set;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.sun.xacml.AttributeCounter;
 import com.sun.xacml.Indenter;
 import com.sun.xacml.ParsingException;
 
@@ -64,6 +65,11 @@ import com.sun.xacml.ParsingException;
  */
 public class ResponseCtx
 {
+	private AttributeCounter attributeCounter;
+	
+	public AttributeCounter getAttributeCounter() {
+		return this.attributeCounter;
+	}
 
     // The set of Result objects returned by the PDP
     private Set results = null;
@@ -75,8 +81,19 @@ public class ResponseCtx
      * @param result the single result in the response
      */
     public ResponseCtx(Result result) {
+    	this(result, null);
+    }
+    
+    /**
+     * Constructor that creates a new <code>ResponseCtx</code> with only a
+     * single <code>Result</code> (a common case) and an attribute counter.
+     *
+     * @param result the single result in the response
+     */
+    public ResponseCtx(Result result, AttributeCounter attributeCounter) {
         results = new HashSet();
         results.add(result);
+    	this.attributeCounter = attributeCounter;
     }
     
     /**
@@ -87,7 +104,19 @@ public class ResponseCtx
      * @param results a <code>Set</code> of <code>Result</code> objects
      */
     public ResponseCtx(Set results) {
-        this.results = Collections.unmodifiableSet(new HashSet(results));
+        this(results, null);
+    }
+    
+    /**
+     * Constructor that creates a new <code>ResponseCtx</code> with a
+     * <code>Set</code> of <code>Result</code>s and attribute counter. 
+     * The <code>Set</code> must be non-empty.
+     *
+     * @param results a <code>Set</code> of <code>Result</code> objects
+     */
+    public ResponseCtx(Set results, AttributeCounter attributeCounter) {
+    	this.results = Collections.unmodifiableSet(new HashSet(results));
+    	this.attributeCounter = attributeCounter;
     }
 
     /**

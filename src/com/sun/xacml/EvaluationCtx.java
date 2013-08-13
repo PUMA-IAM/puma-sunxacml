@@ -282,5 +282,10 @@ public interface EvaluationCtx
 	 * web service communication.
 	 */
 	public List<EncodedCachedAttribute> getEncodedCachedAttributes();
+	
+	/**
+	 * Returns the attribute counter for this EvaluationCtx.
+	 */
+	public AttributeCounter getAttributeCounter();
 
 }

@@ -119,7 +119,7 @@ public class PDPConfig {
         if(attributeCounter != null) {
         	this.attributeCounter = attributeCounter;
         } else {
-        	this.attributeCounter = new DefaultAttributeCounter();
+        	this.attributeCounter = new BasicAttributeCounter();
         }
     }
 

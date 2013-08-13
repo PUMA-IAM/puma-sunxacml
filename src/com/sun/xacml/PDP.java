@@ -83,19 +83,35 @@ public class PDP
     // the single attribute finder that can be used to find external values
     private AttributeFinder attributeFinder;
 
+    public AttributeFinder getAttributeFinder() {
+		return attributeFinder;
+	}
+
     // the single policy finder that will be used to resolve policies
     private PolicyFinder policyFinder;
 
+	public PolicyFinder getPolicyFinder() {
+		return policyFinder;
+	}
+
     // the single resource finder that will be used to resolve resources
     private ResourceFinder resourceFinder;
+
+	public ResourceFinder getResourceFinder() {
+		return resourceFinder;
+	}
     
     //
     private RemotePolicyEvaluator remotePolicyEvaluator;
+
+	public RemotePolicyEvaluator getRemotePolicyEvaluator() {
+		return remotePolicyEvaluator;
+	}    
     
     // 
     private AttributeCounter attributeCounter;
 
-    // the logger we'll use for all messages
+	// the logger we'll use for all messages
     private static final Logger logger = Logger.getLogger(PDP.class.getName());
 
     /**
@@ -281,11 +297,12 @@ public class PDP
             }
 
             // return the set of results
-            return new ResponseCtx(results);
+            return new ResponseCtx(results, context.getAttributeCounter());
         } else {
             // the scope was IMMEDIATE (or missing), so we can just evaluate
             // the request and return whatever we get back
-            return new ResponseCtx(evaluateContext(context));
+        	Result result = evaluateContext(context);
+            return new ResponseCtx(result, context.getAttributeCounter());
         }
     }
 

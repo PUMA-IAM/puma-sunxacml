@@ -131,9 +131,6 @@ public class BasicEvaluationCtx implements EvaluationCtx {
 
 	// the attribute cache we'll use to cache results of the attribute finder
 	private AttributeCache attributeCache;
-	
-	// the attribute counter to count attributes
-	private AttributeCounter attributeCounter = new DefaultAttributeCounter();
 
 	public Set<BagAttribute> getCachedAttributes() {
 		Set<BagAttribute> result = new HashSet<BagAttribute>();
@@ -152,6 +149,13 @@ public class BasicEvaluationCtx implements EvaluationCtx {
 	
 	public List<EncodedCachedAttribute> getEncodedCachedAttributes() {
 		return this.attributeCache.getEncodedCachedAttributes();
+	}
+	
+	// the attribute counter to count attributes
+	private AttributeCounter attributeCounter = new BasicAttributeCounter();
+	
+	public AttributeCounter getAttributeCounter() {
+		return this.attributeCounter;
 	}
 
 	/**
