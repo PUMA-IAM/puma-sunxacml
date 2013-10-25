@@ -38,6 +38,7 @@ package com.sun.xacml.ctx;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -61,7 +62,7 @@ import com.sun.xacml.ParsingException;
  * @author Seth Proctor
  * @author Marco Barreno
  */
-public class Result
+public class Result implements Serializable
 {
 
     /**

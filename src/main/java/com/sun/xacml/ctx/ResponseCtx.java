@@ -42,6 +42,7 @@ package com.sun.xacml.ctx;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -62,7 +63,7 @@ import com.sun.xacml.ParsingException;
  * @author Marco Barreno
  * @author Maarten Decat
  */
-public class ResponseCtx
+public class ResponseCtx implements Serializable
 {
 
     // The set of Result objects returned by the PDP

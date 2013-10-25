@@ -20,6 +20,7 @@
 
 package com.sun.xacml.ctx;
 
+import java.io.Serializable;
 import java.net.URI;
 
 import com.sun.xacml.attr.BagAttribute;
@@ -30,8 +31,13 @@ import com.sun.xacml.attr.BagAttribute;
  * @author Maarten Decat
  * 
  */
-public class CachedAttribute {
+public class CachedAttribute implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6373425424480848238L;
+
 	private String type;
 	
 	private String id;

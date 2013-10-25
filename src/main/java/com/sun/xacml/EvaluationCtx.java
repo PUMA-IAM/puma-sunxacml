@@ -43,6 +43,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.Set;
 
+import oasis.names.tc.xacml._2_0.context.schema.os.RequestType;
+
 import org.w3c.dom.Node;
 
 import com.sun.xacml.attr.AttributeValue;
@@ -109,6 +111,12 @@ public interface EvaluationCtx
      *                                       by an XML representation
      */
     public Node getRequestRoot();
+    
+    /**
+     * Returns the request that initiated this context
+     * @return RequestType
+     */
+    public RequestType getRequest();
 
     /**
      * Returns the resource scope, which will be one of the three fields
@@ -271,6 +279,11 @@ public interface EvaluationCtx
      * Returns the attributes cached in this evaluation context.
      */
 	public Set<BagAttribute> getCachedAttributes();
+	
+	/**
+	 * Returns the raw set of attributes cached in this evaluation context.
+	 */
+	public Set<CachedAttribute> getRawCachedAttributes();
 
 	/**
 	 * Add the given attributes to the cache.

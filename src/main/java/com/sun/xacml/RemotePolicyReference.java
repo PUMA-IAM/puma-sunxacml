@@ -70,7 +70,7 @@ public class RemotePolicyReference extends AbstractPolicy {
     			throws ParsingException {
     	try {
     		NamedNodeMap attributes = root.getAttributes();
-    		Node node = attributes.getNamedItem("id");
+    		Node node = attributes.getNamedItem("PolicyId");
     		String id = node.getTextContent();
 			return new RemotePolicyReference(new URI(id));
 		} catch (DOMException e) {

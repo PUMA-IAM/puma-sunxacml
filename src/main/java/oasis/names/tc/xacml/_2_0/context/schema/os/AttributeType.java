@@ -8,8 +8,10 @@
 
 package oasis.names.tc.xacml._2_0.context.schema.os;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -44,7 +46,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "AttributeType", propOrder = {
     "attributeValue"
 })
-public class AttributeType {
+public class AttributeType implements Serializable {
 
     @XmlElement(name = "AttributeValue", required = true)
     protected List<AttributeValueType> attributeValue;

@@ -8,8 +8,10 @@
 
 package oasis.names.tc.xacml._2_0.context.schema.os;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -41,7 +43,7 @@ import javax.xml.bind.annotation.XmlType;
     "resourceContent",
     "attribute"
 })
-public class ResourceType {
+public class ResourceType implements Serializable {
 
     @XmlElement(name = "ResourceContent")
     protected ResourceContentType resourceContent;

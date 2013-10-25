@@ -102,7 +102,13 @@ import com.sun.xacml.remote.RemotePolicyEvaluator;
 public class BasicEvaluationCtx implements EvaluationCtx {
 	// the finder to use if a value isn't in the request
 	private AttributeFinder finder;
+	
 	RequestType request = null;
+	
+	public RequestType getRequest() {
+		return this.request;
+	}
+	
 	Node requestRoot = null;
 
 	// the 4 maps that contain the attribute data
@@ -141,6 +147,10 @@ public class BasicEvaluationCtx implements EvaluationCtx {
 			result.add(ca.getValue());
 		}
 		return result;
+	}
+	
+	public Set<CachedAttribute> getRawCachedAttributes() {
+		return this.attributeCache.getCachedAttributes();
 	}
 
 	public void addAttributesToCache(List<CachedAttribute> attributes) {

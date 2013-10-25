@@ -36,36 +36,32 @@
 
 package com.sun.xacml.attr;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.Serializable;
+import java.net.URI;
+import java.util.Collections;
+import java.util.List;
+
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import oasis.names.tc.xacml._2_0.context.schema.os.AttributeValueType;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+
 import com.sun.xacml.BindingUtility;
 import com.sun.xacml.EvaluationCtx;
 import com.sun.xacml.Indenter;
 import com.sun.xacml.ParsingException;
 import com.sun.xacml.UnknownIdentifierException;
-
 import com.sun.xacml.cond.Evaluatable;
 import com.sun.xacml.cond.EvaluationResult;
-
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.StringReader;
-
-import java.net.URI;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.stream.StreamSource;
-import oasis.names.tc.xacml._2_0.context.schema.os.AttributeValueType;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 
 
 /**
@@ -80,7 +76,7 @@ import org.w3c.dom.Node;
  * @since 1.0
  * @author Seth Proctor
  */
-public abstract class AttributeValue implements Evaluatable
+public abstract class AttributeValue implements Evaluatable, Serializable
 {
 
     // the type of this attribute

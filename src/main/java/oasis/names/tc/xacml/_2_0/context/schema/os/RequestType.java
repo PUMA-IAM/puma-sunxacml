@@ -8,8 +8,10 @@
 
 package oasis.names.tc.xacml._2_0.context.schema.os;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -45,7 +47,7 @@ import javax.xml.bind.annotation.XmlType;
     "action",
     "environment"
 })
-public class RequestType {
+public class RequestType implements Serializable {
 
     @XmlElement(name = "Subject", required = true)
     protected List<SubjectType> subject;
