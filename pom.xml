@@ -5,6 +5,7 @@
 	<artifactId>PUMA-sunxacml</artifactId>
 	<version>1</version>
 	<name>PUMA SunXACML</name>
+	<packaging>jar</packaging>
 	<description>The SunXACML code to be used by the other projects</description>
 	<build>
 		<finalName>sunxacml</finalName>
