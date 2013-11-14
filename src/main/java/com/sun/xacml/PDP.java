@@ -83,14 +83,26 @@ public class PDP
     // the single attribute finder that can be used to find external values
     private AttributeFinder attributeFinder;
 
-    // the single policy finder that will be used to resolve policies
+    public AttributeFinder getAttributeFinder() {
+		return attributeFinder;
+	}
+
+	// the single policy finder that will be used to resolve policies
     private PolicyFinder policyFinder;
+
+	public PolicyFinder getPolicyFinder() {
+		return policyFinder;
+	}
 
     // the single resource finder that will be used to resolve resources
     private ResourceFinder resourceFinder;
     
     //
     private RemotePolicyEvaluator remotePolicyEvaluator;
+
+	public RemotePolicyEvaluator getRemotePolicyEvaluator() {
+		return remotePolicyEvaluator;
+	}
     
     // 
     private AttributeCounter attributeCounter;
