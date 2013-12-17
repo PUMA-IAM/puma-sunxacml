@@ -310,9 +310,11 @@ public class PDP
         PolicyFinderResult finderResult = policyFinder.findPolicy(context);
 
         // see if there weren't any applicable policies
-        if (finderResult.notApplicable())
+        if (finderResult.notApplicable()) {
+			logger.warning("No policy found for this context!");
             return new Result(Result.DECISION_NOT_APPLICABLE,
                               context.getResourceId().encode());
+        }
 
         // see if there were any errors in trying to get a policy
         if (finderResult.indeterminate())
