@@ -807,7 +807,7 @@ public class BasicEvaluationCtx implements EvaluationCtx {
 		BagAttribute cachedAttribute = this.attributeCache.getAttribute(type,
 				id);
 		if (cachedAttribute != null) {			
-			logger.info("FLOW: Found " + id + " in the attribute cache.");
+			logger.info("FLOW: Found " + id + " in the attribute cache: " + cachedAttribute.toString());
 			this.attributeCounter.countCacheFetch();
 			return new EvaluationResult(cachedAttribute);
 		}
@@ -821,7 +821,7 @@ public class BasicEvaluationCtx implements EvaluationCtx {
 				this.attributeCache.cacheAttribute(type, id,
 						(BagAttribute) result.getAttributeValue());
 				this.attributeCounter.countNoncacheFetch();
-				logger.info("FLOW: Fetched " + id + " and stored in attribute cache.");
+				logger.info("FLOW: Fetched " + id + " and stored in attribute cache: " + bag.toString());
 			}
 			return result;
 		} else {

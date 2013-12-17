@@ -285,5 +285,14 @@ public class BagAttribute extends AttributeValue implements Iterable<Object>
     public Collection getValue() {
         return bag;
     }
+    
+    public String toString() {
+    	String result = "[ ";
+    	for(SimpleAttributeValue v: encodeToSet()) {
+    		result += v.getValue() + ", ";
+    	}
+    	result += " ]";
+    	return result;
+    }
 
 }
