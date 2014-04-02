@@ -3,7 +3,7 @@
   <groupId>puma</groupId>
   <artifactId>PUMA-sunxacml</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
   <name>PUMA SunXACML</name>
   <description>The SunXACML code to be used by the other projects</description>
 </project>
