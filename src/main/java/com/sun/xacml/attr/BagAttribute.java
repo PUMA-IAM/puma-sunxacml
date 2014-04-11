@@ -288,8 +288,13 @@ public class BagAttribute extends AttributeValue implements Iterable<Object>
     
     public String toString() {
     	String result = "[ ";
+    	boolean first = true;
     	for(SimpleAttributeValue v: encodeToSet()) {
-    		result += v.getValue() + ", ";
+    		if(! first) {
+    			result += ", ";
+    		}
+    		result += v.getValue();
+    		first = false;
     	}
     	result += " ]";
     	return result;
