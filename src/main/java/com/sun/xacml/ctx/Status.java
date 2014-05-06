@@ -86,7 +86,7 @@ public class Status implements Serializable {
 	private String message;
 
 	// the detail
-	private StatusDetail detail; // MDC: this is not serializable because of its
+	private transient StatusDetail detail; // MDC: this is not serializable because of its
 									// Node field. Let's hope there will never
 									// be a StatusDetail :)
 
