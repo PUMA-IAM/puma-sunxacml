@@ -20,6 +20,7 @@
 
 package com.sun.xacml.ctx;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.sun.xacml.SimpleAttributeValue;
@@ -31,7 +32,7 @@ import com.sun.xacml.attr.BagAttribute;
  * @author Maarten Decat
  * 
  */
-public class EncodedCachedAttribute {
+public class EncodedCachedAttribute implements Serializable {
 	
 	private String type;
 	

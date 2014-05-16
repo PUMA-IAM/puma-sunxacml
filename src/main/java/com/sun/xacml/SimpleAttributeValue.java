@@ -20,6 +20,8 @@
 
 package com.sun.xacml;
 
+import java.io.Serializable;
+
 import com.sun.xacml.attr.AttributeValue;
 import com.sun.xacml.attr.BooleanAttribute;
 import com.sun.xacml.attr.DateAttribute;
@@ -32,7 +34,7 @@ import com.sun.xacml.attr.StringAttribute;
  * @author Maarten Decat
  *
  */
-public class SimpleAttributeValue {
+public class SimpleAttributeValue implements Serializable {
 	
 	private String type;
 	
