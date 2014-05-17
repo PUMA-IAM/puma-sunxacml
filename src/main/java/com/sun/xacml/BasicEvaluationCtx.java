@@ -39,7 +39,6 @@
 package com.sun.xacml;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -368,15 +367,16 @@ public class BasicEvaluationCtx implements EvaluationCtx {
 						+ "resource-id Attribute");
 				throw new ParsingException("too many resource-id attrs");
 			} else {
-				try {
-					// keep track of the resource-id attribute
-					AttributeType attr = set.iterator().next();
-					resourceId = AttributeValue.convertFromJAXB(
-							attr.getAttributeValue(),
-							new URI(attr.getDataType()));
-				} catch (URISyntaxException ex) {
-					throw new RuntimeException(ex);
-				}
+				resourceId = new StringAttribute("THIS SHOULD NEVER BE NEEDED. BLAME MAARTEN IF THIS GIVES AN ERROR"); // vuile performantie verbetering
+//				try {
+//					// keep track of the resource-id attribute
+//					AttributeType attr = set.iterator().next();
+//					resourceId = AttributeValue.convertFromJAXB(
+//							attr.getAttributeValue(),
+//							new URI(attr.getDataType()));
+//				} catch (URISyntaxException ex) {
+//					throw new RuntimeException(ex);
+//				}
 			}
 		}
 

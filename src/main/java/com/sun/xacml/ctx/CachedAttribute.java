@@ -82,4 +82,8 @@ public class CachedAttribute implements Serializable {
 			return first.toString().equals(second.toString()); 
 		}
 	}
+	
+	public String toString() {
+		return this.getId() + "(" + this.getType() + ") = " + this.getValue().toString();
+	}
 }
