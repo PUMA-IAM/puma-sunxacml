@@ -473,10 +473,10 @@ public class PolicyReference extends AbstractPolicy {
 				constraints, parentMetaData);
 
 		if (pfr.notApplicable())
-			throw new ProcessingException("couldn't resolve the policy");
+			throw new ProcessingException("couldn't resolve the policy: policy finder is not applicable. Find policy with id '" + reference.toString() + "'.");
 
 		if (pfr.indeterminate())
-			throw new ProcessingException("error resolving the policy");
+			throw new ProcessingException("error resolving the policy. Id of policy is '" + reference.toString() + "'.");
 
 		return pfr.getPolicy();
 	}
